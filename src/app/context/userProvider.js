@@ -6,7 +6,7 @@ import UserContext from "./userContext";
 import { currentUser } from "@/services/userServices";
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchCurrentUser = async () => {
         try {

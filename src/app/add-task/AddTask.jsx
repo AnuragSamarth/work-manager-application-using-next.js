@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 function AddTask() {
  
   const [task, setTask] = useState({
-    userId: "67036e19bc2cdb2578c593f5"
+    // userId: "67036e19bc2cdb2578c593f5"
   });
 
   function handleChange(e) {
@@ -95,8 +95,8 @@ function AddTask() {
               required
             >
               <option value="" disabled>Select status</option>
-              <option value="Completed">Completed</option>
-              <option value="Pending">Pending</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
             </select>
           </div>
           <div className="flex items-center justify-between space-x-4 pt-4">

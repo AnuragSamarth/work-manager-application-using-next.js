@@ -31,12 +31,13 @@ export async function POST(request) {
       { _id: user._id, name: user.name },
       process.env.JWT_KEY
     );
-    console.log(token);
+    // console.log(token);
 
     //4. create nextResponse - cookies
     const response = NextResponse.json({
       message: "Login success !!",
       success: true,
+      user
     });
     response.cookies.set("authToken",
          token,

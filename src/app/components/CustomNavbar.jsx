@@ -1,17 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/userContext";
-import { UserPen } from "lucide-react";
+import { logoutUser } from "@/services/userServices";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function CustomNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const context = useContext(UserContext);
-  console.log(context.user);
+  // console.log(context.user);
+
+  useEffect(() => {}, [context.user]);
+  
+  async function doLogout(){
+       try {
+          const res =  await logoutUser();
+          console.log(res)
+          context.setUser(undefined);
+          router.push("/")
+       } catch (error) {
+        console.log(error);
+        toast.error("Logout Error")
+       }
+  } 
 
   return (
     <nav className="bg-white shadow-md">
@@ -36,13 +53,13 @@ export default function CustomNavbar() {
             <div className="ml-4 flex items-center md:ml-6">
             {context.user ? (
                 <div className="flex items-center gap-5">
-                  <UserPen size={35} />
-                  <Link
-                    href="#!"
+                  <p>{context.user.name}</p>
+                  <button
+                    onClick={doLogout}
                     className="block w-full text-center bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors mt-2"
                   >
                     Logout
-                  </Link>
+                  </button>
                 </div>
               ) : (
                 <div className="ml-4 flex items-center md:ml-6">
@@ -117,7 +134,13 @@ export default function CustomNavbar() {
             <div className="flex items-center px-5">
               {context.user ? (
                 <div>
-                  <UserPen />
+                 <p>{context.user.name}</p>
+                  <button
+                    onClick={doLogout}
+                    className="block w-full text-center bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors mt-2"
+                  >
+                    Logout
+                  </button>
                 </div>
               ) : (
                 <div>

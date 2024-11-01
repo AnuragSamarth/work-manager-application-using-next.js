@@ -2,11 +2,13 @@
 
 import { login } from "@/services/userServices";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import UserContext from "../context/userContext";
 
 function Login() {
  const router = useRouter();
+ const context = useContext(UserContext)
   const [loginData, setLoginData] = useState({});
 
   function handleChange(e) {
@@ -21,6 +23,7 @@ function Login() {
       const result = await login(loginData)
       console.log(result);
       toast.success("Logged in success.", { position: "top-center" });
+      context.setUser(result.user)
       router.push("/user-profile")
     } catch (error) {
       toast.error(error.response.data.message, {

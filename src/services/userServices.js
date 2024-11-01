@@ -1,4 +1,5 @@
 import { httpAxios } from "@/helper/httpHelper";
+import { toast } from "react-toastify";
 
 export async function signUp(user) {
   try {
@@ -36,5 +37,16 @@ export async function currentUser() {
   } catch (error) {
     console.log(error);
     toast.error("error in loading current user");
+  }
+}
+
+export async function logoutUser(){
+  try {
+    const result = await httpAxios.post("/api/logout").then((res)=> res.data);
+
+    return result;
+  } catch (error) {
+    console.log(error);
+    toast.error(("error in logout current user"))
   }
 }
