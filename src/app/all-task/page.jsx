@@ -1,10 +1,12 @@
+import ShowTasks from "./ShowTasks";
+
 export const metadata = {
     title : "All Task : Work Manager"
 }
 
 function AllTask(){
     return <>
-    <h1>All Task</h1>
+    <div><ShowTasks/></div>
     </>
 }
 

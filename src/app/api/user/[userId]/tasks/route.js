@@ -15,6 +15,8 @@ export async function GET(request, { params }) {
     return NextResponse.json({
       message: "Failed to get tasks !!",
       success: false,
-    });
+    }, 
+      { status: 500 }
+    );
   }
 }

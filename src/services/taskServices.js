@@ -10,3 +10,14 @@ export async function addTask(task) {
     console.log(error)
   }
 }
+
+
+export async function getTasksOfUser(userID){
+  try {
+    console.log(userID)
+    const result = await httpAxios.get(`/api/user/${userID}/tasks`).then((res) => res.data)
+    return result;
+  } catch (error) {
+    console.log(error)
+  }
+}
