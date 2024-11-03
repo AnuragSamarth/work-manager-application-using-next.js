@@ -2,7 +2,8 @@
 
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/userContext";
-import { getTasksOfUser } from "@/services/taskServices";
+import { deleteTask, getTasksOfUser } from "@/services/taskServices";
+import { toast } from "react-toastify";
 
 export default function ShowTasks() {
   const [tasks, setTasks] = useState([]);
@@ -20,10 +21,24 @@ export default function ShowTasks() {
     }
   };
 
+  function taskDelete(taskId){
+    return function (){
+      try {
+       const result =  deleteTask(taskId);
+      //  console.log(result)
+        toast.success("Task deleted successfully")
+       const newTasks = tasks.filter((item => item._id == taskId));
+       setTasks(newTasks)
+      } catch (error) {
+        toast.error("Some thing went wrong to deleting task.")
+      }
+    }
+  }
+
   useEffect(() => {
     fetchTasks();
   }, [user]);
-  console.log(tasks);
+  // console.log(tasks);
 
   if (loading) return <section>Loading...</section>;
 
@@ -78,12 +93,13 @@ export default function ShowTasks() {
                   ? 'bg-red-500 text-white hover:bg-red-600' 
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
-              onClick={() => handleUpdateStatus(index, 'cancelled')}
+              // onClick={() => handleUpdateStatus(index, 'cancelled')}
               disabled={item.status !== 'pending'}
+              onClick={taskDelete(item._id)}
             >
-              Cancel
+              Delete
             </button>
-            <button 
+            {/* <button 
               className={`px-4 py-2 rounded-md text-sm font-medium ${
                 item.status === 'completed'
                   ? 'bg-yellow-500 text-white hover:bg-yellow-600'
@@ -92,7 +108,7 @@ export default function ShowTasks() {
               onClick={() => handleUpdateStatus(index, item.status === 'completed' ? 'pending' : 'completed')}
             >
               {item.status === 'completed' ? 'Mark as Pending' : 'Complete'}
-            </button>
+            </button> */}
           </div>
         </div>
       ))}
